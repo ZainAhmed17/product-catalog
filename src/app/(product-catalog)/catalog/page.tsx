@@ -1,24 +1,14 @@
-'use client'
-import React, { useEffect } from "react";
-import { ProductController } from "./product.controller";
-import { useProductContext } from "@/context/products/products.context";
 import CatalogMain from "./components/catalog-main/catalogMain";
-import CatalogSkeleton from "./components/catalog-skeleton/catalogSkeleton";
-import Productlayout from "@/app/layout/productLayout";
+import { getAllProducts } from "@/data/api/products/products.api";
 
-const page = () => {
-  const { fetchProducts } = ProductController();
-  const { state } = useProductContext();
+const page = async () => {
+  const productList = await getAllProducts();
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  if (state.isLoading) {
-    return <CatalogSkeleton />;
+  if (!productList.data) {
+    return <div>No products found</div>;
   }
 
-  return <CatalogMain />;
+  return <CatalogMain products={productList.data} />;
 };
 
 export default page;

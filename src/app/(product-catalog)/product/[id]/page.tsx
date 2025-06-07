@@ -1,27 +1,18 @@
-'use client';
-import React, { useEffect } from 'react'
-import { ProductController } from '../../catalog/product.controller';
-import ProductDetails from './components/product-details/productDetails';
-import { useProductContext } from '@/context/products/products.context';
-import ProductSkeleton from './components/product-skeleton/productSkeleton';
+import React from "react";
+import ProductDetails from "./components/product-details/productDetails";
+import { getProductDetails } from "@/data/api/products/products.api";
 
-const page = ({params}: {params: Promise<{id: string}>}) => {
-  const resolvedParams = React.use(params);
-  const { fetchProductById} = ProductController();
-  const { state:{productDetails,isDetailsLoading} } = useProductContext();
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const paramsData = await params;
+  const productDetails = await getProductDetails(paramsData.id);
 
-  useEffect(() => {
-    fetchProductById(resolvedParams.id);
-  }, [resolvedParams.id]);
-
-  if(isDetailsLoading){
-    return <ProductSkeleton />;
+  if (!productDetails.data) {
+    return <div>No product details found</div>;
   }
 
   return (
-  
-      productDetails && <ProductDetails productDetails={productDetails} />
-  )
-}
+    productDetails && <ProductDetails productDetails={productDetails.data} />
+  );
+};
 
-export default page
+export default page;

@@ -1,17 +1,9 @@
 'use client';
-import { createContext, Dispatch, useContext, useEffect, useReducer, useState } from "react";
-import {
-  initialState,
-  ProductAction,
-  productsReducer,
-  ProductState,
-} from "./products.reducer";
+import { createContext, useContext } from "react";
 import { ProductDTO } from "@/data/types/products/products.types";
 import { usePersistedState } from "@/hooks/useLocalStorage";
 
 interface ProductContextType {
-  state: ProductState;
-  dispatch: Dispatch<ProductAction>;
   addToCart: (product: ProductDTO) => void;
   removeFromCart: (id: number) => void;
   clearCart: () => void;
@@ -26,7 +18,6 @@ const ProductContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = useReducer(productsReducer, initialState);
   const [cartItems, setCartItems] = usePersistedState<ProductDTO[]>("cart", []);
 
 
@@ -49,7 +40,7 @@ const ProductContextProvider = ({
 
   return (
     <ProductContext.Provider
-      value={{ state, dispatch, addToCart, removeFromCart, clearCart, cartItems , checkIfProductIsInCart }}
+      value={{  addToCart, removeFromCart, clearCart, cartItems , checkIfProductIsInCart }}
     >
       {children}
     </ProductContext.Provider>

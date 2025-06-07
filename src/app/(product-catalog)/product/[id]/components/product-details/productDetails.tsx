@@ -1,3 +1,4 @@
+'use client'
 import { ProductDTO } from "@/data/types/products/products.types";
 import React from "react";
 import styles from "./productDetails.module.scss";

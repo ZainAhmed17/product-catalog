@@ -18,8 +18,7 @@ const SingleProduct = ({ product }: { product: ProductDTO }) => {
         alt={product.title}
         width={100}
         height={100}
-        priority={false}
-        loading="lazy"
+        priority
       />
       <h3>{product.title}</h3>
       <div>$ {product.price}</div>
