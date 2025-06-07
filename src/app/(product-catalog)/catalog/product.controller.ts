@@ -1,5 +1,5 @@
 import { useProductContext } from "@/context/products/products.context";
-import { getAllProducts } from "@/data/api/products/products.api";
+import { getAllProducts, getProductDetails } from "@/data/api/products/products.api";
 import { ProductDTO } from "@/data/types/products/products.types";
 
 export const ProductController = () => {
@@ -21,7 +21,6 @@ export const ProductController = () => {
     setLoading(true);
     try {
       const { data, error } = await getAllProducts();
-      console.log(data,error);
       if (error) {
         setError(error as string);
       } else {
@@ -34,7 +33,32 @@ export const ProductController = () => {
     }
   };
 
+  const setProductLoading = (loading: boolean) => {
+    dispatch({ type: "SET_DETAILS_LOADING", payload: loading });
+  }
+
+  const setProductDetails = (product: ProductDTO) => {
+    dispatch({ type: "SET_PRODUCT_DETAILS", payload: product });
+  }
+
+  const fetchProductById = async (id: string) => {
+    setProductLoading(true);
+    try {
+      const { data, error } = await getProductDetails(id);
+      if (error) {
+        setError(error as string);
+      } else {
+        setProductDetails(data as ProductDTO);
+      }
+      setProductLoading(false);
+    }catch(error){
+      setError(error as string);
+      setProductLoading(false);
+    }
+  }
+
   return {
     fetchProducts,
+    fetchProductById
   };
 };

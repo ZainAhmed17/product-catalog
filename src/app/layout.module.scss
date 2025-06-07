@@ -1,0 +1,7 @@
+@supports not (-webkit-tap-highlight-color: white) {
+    html:has(.portal-layout) {
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+  }
+  

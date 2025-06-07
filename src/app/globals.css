@@ -12,15 +12,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@supports not (-webkit-tap-highlight-color: white) {
+  /* CSS specific to other than iOS devices */
+  html:has(.portal-layout) {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+}
+
+@supports (-webkit-tap-highlight-color: white) {
+  /* CSS specific to iOS devices */
+  html:has(.portal-layout) {
+    overflow: auto;
+    scrollbar-width: none;
+    overscroll-behavior: none;
+  }
 }

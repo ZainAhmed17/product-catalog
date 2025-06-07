@@ -2,9 +2,11 @@
 import React, { useEffect } from "react";
 import { ProductController } from "./product.controller";
 import { useProductContext } from "@/context/products/products.context";
-import SingleProuduct from "./components/product/singleProuduct";
+import CatalogMain from "./components/catalog-main/catalogMain";
+import CatalogSkeleton from "./components/catalog-skeleton/catalogSkeleton";
+import Productlayout from "@/app/layout/productLayout";
 
-const page =  () => {
+const page = () => {
   const { fetchProducts } = ProductController();
   const { state } = useProductContext();
 
@@ -13,17 +15,10 @@ const page =  () => {
   }, []);
 
   if (state.isLoading) {
-    return <div>Loading...</div>;
+    return <CatalogSkeleton />;
   }
 
-  return <div>
-    <h1>Product Catalog</h1>
-   {state.products.length > 0 && <div>
-      {state.products.map((product) => (
-        <SingleProuduct key={product.id} product={product} />
-      ))}
-    </div>}
-  </div>;
+  return <CatalogMain />;
 };
 
 export default page;
